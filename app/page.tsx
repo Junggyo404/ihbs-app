@@ -11,7 +11,7 @@ import {
   getTodayPlaylists,
   getPublicNotices,
   getAppSettings,
-} from '@/lib/supabase/queries';
+} from '@/lib/supabase/serverQueries';
 import { MessageSquare, Music, MessageCircle, ChevronRight } from 'lucide-react';
 
 export default async function HomePage() {

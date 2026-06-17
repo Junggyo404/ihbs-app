@@ -4,7 +4,7 @@ import PageContainer from '@/components/layout/PageContainer';
 import PlaylistCard from '@/components/cards/PlaylistCard';
 import SectionTitle from '@/components/common/SectionTitle';
 import EmptyState from '@/components/common/EmptyState';
-import { getAllPlaylists } from '@/lib/supabase/queries';
+import { getAllPlaylists } from '@/lib/supabase/serverQueries';
 import type { Playlist } from '@/types';
 import { Music } from 'lucide-react';
 

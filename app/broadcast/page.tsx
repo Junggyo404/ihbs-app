@@ -4,7 +4,7 @@ import PageContainer from '@/components/layout/PageContainer';
 import BroadcastCard from '@/components/cards/BroadcastCard';
 import SectionTitle from '@/components/common/SectionTitle';
 import EmptyState from '@/components/common/EmptyState';
-import { getAllBroadcasts } from '@/lib/supabase/queries';
+import { getAllBroadcasts } from '@/lib/supabase/serverQueries';
 import type { Broadcast, DayOfWeek } from '@/types';
 import { DAY_OF_WEEK_LABELS } from '@/types';
 import { Radio } from 'lucide-react';
