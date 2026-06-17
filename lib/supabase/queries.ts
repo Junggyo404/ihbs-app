@@ -1,4 +1,4 @@
-import { createClient } from './client';
+import { createClient } from './server';
 import type { Broadcast, Playlist, Notice, AppSetting } from '@/types';
 import {
   fallbackBroadcasts,
@@ -16,7 +16,7 @@ const isSupabaseConfigured =
 export async function getTodayBroadcasts(): Promise<Broadcast[]> {
   if (!isSupabaseConfigured) return fallbackBroadcasts.slice(0, 3);
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const today = new Date().toISOString().split('T')[0];
   const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
   const todayDay = days[new Date().getDay()];
@@ -35,7 +35,7 @@ export async function getTodayBroadcasts(): Promise<Broadcast[]> {
 export async function getAllBroadcasts(): Promise<Broadcast[]> {
   if (!isSupabaseConfigured) return fallbackBroadcasts;
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from('broadcasts')
     .select('*')
@@ -50,7 +50,7 @@ export async function getAllBroadcasts(): Promise<Broadcast[]> {
 export async function getTodayPlaylists(): Promise<Playlist[]> {
   if (!isSupabaseConfigured) return fallbackPlaylists.slice(0, 5);
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const today = new Date().toISOString().split('T')[0];
 
   const { data, error } = await supabase
@@ -67,7 +67,7 @@ export async function getTodayPlaylists(): Promise<Playlist[]> {
 export async function getAllPlaylists(): Promise<Playlist[]> {
   if (!isSupabaseConfigured) return fallbackPlaylists;
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from('playlists')
     .select('*')
@@ -82,7 +82,7 @@ export async function getAllPlaylists(): Promise<Playlist[]> {
 export async function getPublicNotices(): Promise<Notice[]> {
   if (!isSupabaseConfigured) return fallbackNotices;
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from('notices')
     .select('*')
@@ -100,73 +100,11 @@ export async function getAppSettings(): Promise<Record<string, string>> {
     return Object.fromEntries(fallbackSettings.map((s) => [s.key, s.value]));
   }
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase.from('app_settings').select('*');
 
   if (error || !data) {
     return Object.fromEntries(fallbackSettings.map((s) => [s.key, s.value]));
   }
   return Object.fromEntries(data.map((s: AppSetting) => [s.key, s.value]));
-}
-
-// 사연 제출
-export async function submitStory(payload: {
-  nickname: string;
-  is_anonymous: boolean;
-  category: string;
-  content: string;
-  contact_allowed: boolean;
-  contact_info?: string;
-  privacy_agreed: boolean;
-}) {
-  if (!isSupabaseConfigured) {
-    return { error: null };
-  }
-
-  const supabase = createClient();
-  const { error } = await supabase.from('stories').insert([{ ...payload, status: 'pending' }]);
-  return { error };
-}
-
-// 신청곡 제출
-export async function submitSongRequest(payload: {
-  nickname: string;
-  is_anonymous: boolean;
-  song_title: string;
-  artist: string;
-  message?: string;
-  contact_allowed: boolean;
-  contact_info?: string;
-  privacy_agreed: boolean;
-}) {
-  if (!isSupabaseConfigured) {
-    return { error: null };
-  }
-
-  const supabase = createClient();
-  const { error } = await supabase
-    .from('song_requests')
-    .insert([{ ...payload, status: 'pending' }]);
-  return { error };
-}
-
-// 건의함 제출
-export async function submitSuggestion(payload: {
-  nickname: string;
-  is_anonymous: boolean;
-  category: string;
-  content: string;
-  need_reply: boolean;
-  contact_info?: string;
-  privacy_agreed: boolean;
-}) {
-  if (!isSupabaseConfigured) {
-    return { error: null };
-  }
-
-  const supabase = createClient();
-  const { error } = await supabase
-    .from('suggestions')
-    .insert([{ ...payload, status: 'pending' }]);
-  return { error };
 }

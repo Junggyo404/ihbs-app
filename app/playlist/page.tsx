@@ -8,6 +8,8 @@ import { getAllPlaylists } from '@/lib/supabase/queries';
 import type { Playlist } from '@/types';
 import { Music } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 function groupByDate(playlists: Playlist[]): Record<string, Playlist[]> {
   const grouped: Record<string, Playlist[]> = {};
   for (const p of playlists) {

@@ -14,6 +14,8 @@ import {
 } from '@/lib/supabase/queries';
 import { MessageSquare, Music, MessageCircle, ChevronRight } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export default async function HomePage() {
   const [broadcasts, playlists, notices, settings] = await Promise.all([
     getTodayBroadcasts(),

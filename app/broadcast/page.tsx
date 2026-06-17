@@ -9,6 +9,8 @@ import type { Broadcast, DayOfWeek } from '@/types';
 import { DAY_OF_WEEK_LABELS } from '@/types';
 import { Radio } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 const DAY_ORDER: DayOfWeek[] = [
   'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
 ];

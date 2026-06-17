@@ -5,7 +5,7 @@ import Input from '@/components/common/Input';
 import Textarea from '@/components/common/Textarea';
 import Select from '@/components/common/Select';
 import Button from '@/components/common/Button';
-import { submitSuggestion } from '@/lib/supabase/queries';
+import { submitSuggestion } from '@/lib/supabase/mutation';
 import { SUGGESTION_CATEGORY_LABELS } from '@/types';
 import { CheckCircle } from 'lucide-react';
 
